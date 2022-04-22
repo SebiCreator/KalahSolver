@@ -403,10 +403,20 @@ public class KalahBoard {
 		}
 	}
 
+	public static int evaluatediff(KalahBoard k){
+		if(k.getCurPlayer() == 'A'){
+			return k.getAKalah() - k.getBKalah();
+		} else{
+			return k.getBKalah() - k.getAKalah();
+		}
+	}
+
 	public static int miniMax(KalahBoard b, int depth, boolean isMax){
 		int boardVal = evaluate(b);
 
 		if(b.isFinished() || depth == 0){
+			b.print();
+			System.out.println("==> " + boardVal);
 			return boardVal;
 		}
 
@@ -416,15 +426,12 @@ public class KalahBoard {
 			    	highVal = Math.max(highVal,miniMax(e,depth-1,false));
 				}
 			    return highVal;
-			}
-		if (!isMax){
-			int lowVal = Integer.MAX_VALUE;
-			for(var e: b.possibleActions()){
-				lowVal = Math.min(lowVal,miniMax(e,depth-1,true));
-			}
-			return lowVal;
 		}
-		return boardVal;
+		int lowVal = Integer.MAX_VALUE;
+		for(var e: b.possibleActions()){
+			lowVal = Math.min(lowVal,miniMax(e,depth-1,true));
+		}
+		return lowVal;
 	}
 
 
@@ -435,7 +442,7 @@ public class KalahBoard {
 		int counter = 0;
 		for(var e: b.possibleActions()){
 			int move = miniMax(e,maxDepth,false);
-			System.out.println("Move= " + move + ", bestMove= " + bestMove);
+			System.out.println("Auswertung bisherig= " + move + ", bestMove= " + bestVal);
 			if (move > bestVal){
 				bestMove = counter;
 				bestVal = move;

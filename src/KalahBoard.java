@@ -405,7 +405,6 @@ public class KalahBoard {
 
 	public static int miniMax(KalahBoard b, int depth, boolean isMax){
 		int boardVal = evaluate(b);
-		System.out.println("Depth: " + depth + " val: " + boardVal);
 
 		if(b.isFinished() || depth == 0){
 			return boardVal;
@@ -426,6 +425,24 @@ public class KalahBoard {
 			return lowVal;
 		}
 		return boardVal;
+	}
+
+
+	public static int getBestMove(KalahBoard b,int maxDepth){
+		int bestMove = Integer.MIN_VALUE;
+		int bestVal = Integer.MIN_VALUE;
+
+		int counter = 0;
+		for(var e: b.possibleActions()){
+			int move = miniMax(e,maxDepth,false);
+			System.out.println("Move= " + move + ", bestMove= " + bestMove);
+			if (move > bestVal){
+				bestMove = counter;
+				bestVal = move;
+			}
+			counter++;
+		}
+		return bestMove;
 	}
 
 

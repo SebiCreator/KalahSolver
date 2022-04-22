@@ -52,6 +52,6 @@ public class Kalah {
 
 	public static void test1(){
 		KalahBoard b = new KalahBoard();
-		System.out.println(">>> " + KalahBoard.miniMax(b,4,true) );
+		System.out.println(">>> " + KalahBoard.getBestMove(b,6));
 	}
 }

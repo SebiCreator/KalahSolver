@@ -17,7 +17,7 @@ public class Kalah {
 		//testHHGame();
 		//test1();
 		//play();
-		testPerformance(2);
+		testPerformance(10);
 	}
 	
 	/**
@@ -71,11 +71,25 @@ public class Kalah {
 
 	public static void testPerformance(int LIMIT){
 		KalahBoard b = new KalahBoard();
+		long startTime = System.nanoTime();
 		KalahBoard.miniMax(b,LIMIT,true);
+		long stopTime = System.nanoTime();
+		double expTime = (double) (stopTime - startTime) / 1.0e09;
+		System.out.printf("Min/Max Aufrufe MiniMax bei einem Limit von %d ==> %d (%.5f s)\n",LIMIT,KalahBoard.COUNTER,expTime);
+
+
+		startTime = System.nanoTime();
 		KalahBoard.miniMaxAB(b,LIMIT,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
-		//KalahBoard.optMiniMax()
-		System.out.printf("Min/Max Aufrufe MiniMax bei einem Limit von %d ==> %d\n",LIMIT,KalahBoard.COUNTER);
-		System.out.printf("Min/Max Aufrufe AlphaBeta bei einem Limit von %d ==> %d\n",LIMIT,KalahBoard.ABCOUNTER);
+		stopTime = System.nanoTime();
+		expTime = (double) (stopTime - startTime) / 1.0e09;
+		System.out.printf("Min/Max Aufrufe AlphaBeta bei einem Limit von %d ==> %d (%.5f s)\n",LIMIT,KalahBoard.ABCOUNTER,expTime);
+		/*
+		startTime = System.nanoTime();
+		KalahBoard.optMiniMax()
+		stopTime = System.nanoTime();
+		expTime = (double) (stopTime-startTime) / 1.0e09;
+		System.out.printf("Min/Max Aufrufe AlphaBetaOptimiert bei einem Limit von %d ==> %d (%.5f s)\n",LIMIT,KalahBoard.OPTCOUNTER,expTime);
+		 */
 
 	}
 
@@ -84,6 +98,6 @@ public class Kalah {
 		KalahBoard b = new KalahBoard(new int[]{13,3,2,1,2,0,5,4,3,0,1,2,2,0}, 'A');
 		KalahBoard b3 = new KalahBoard(new int[]{2,13,2,1,2,0,5,4,3,0,1,2,2,0}, 'B');
 		KalahBoard b2 = new KalahBoard();
-		System.out.println(KalahBoard.getBestMove(b,10));
+		System.out.println(KalahBoard.getBestMoveAB(b2,10));
 	}
 }

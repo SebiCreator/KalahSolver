@@ -6,6 +6,7 @@
 public class Kalah {
 	
 	private static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_RED = "\u001B[31m";
 
 	/**
 	 *
@@ -14,7 +15,9 @@ public class Kalah {
 	public static void main(String[] args) {
 		//testExample();
 		//testHHGame();
-		test1();
+		//test1();
+		//play();
+		testPerformance(2);
 	}
 	
 	/**
@@ -49,10 +52,38 @@ public class Kalah {
 		System.out.println("\n" + ANSI_BLUE + "GAME OVER");
 	}
 
+	public static void play(){
+		KalahBoard b = new KalahBoard();
+		b.print();
+		while(!b.isFinished()){
+			if(b.getCurPlayer() == 'A'){
+				int bestMove = KalahBoard.getBestMoveAB(b,8);
+				b.move(bestMove);
+				System.out.println("\n" + ANSI_RED + ">>> Player A (Computer) spielt Mulde " + bestMove + " <<<<\n" + ANSI_BLUE);
+				b.print();
+			} else{
+				int action = b.readAction();
+				b.move(action);
+				b.print();
+			}
+		}
+	}
+
+	public static void testPerformance(int LIMIT){
+		KalahBoard b = new KalahBoard();
+		KalahBoard.miniMax(b,LIMIT,true);
+		KalahBoard.miniMaxAB(b,LIMIT,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
+		//KalahBoard.optMiniMax()
+		System.out.printf("Min/Max Aufrufe MiniMax bei einem Limit von %d ==> %d\n",LIMIT,KalahBoard.COUNTER);
+		System.out.printf("Min/Max Aufrufe AlphaBeta bei einem Limit von %d ==> %d\n",LIMIT,KalahBoard.ABCOUNTER);
+
+	}
+
 
 	public static void test1(){
 		KalahBoard b = new KalahBoard(new int[]{13,3,2,1,2,0,5,4,3,0,1,2,2,0}, 'A');
+		KalahBoard b3 = new KalahBoard(new int[]{2,13,2,1,2,0,5,4,3,0,1,2,2,0}, 'B');
 		KalahBoard b2 = new KalahBoard();
-		System.out.println(KalahBoard.getBestMoveAB(b2,10));
+		System.out.println(KalahBoard.getBestMove(b,10));
 	}
 }

@@ -53,7 +53,6 @@ public class Kalah {
 	public static void test1(){
 		KalahBoard b = new KalahBoard(new int[]{13,3,2,1,2,0,5,4,3,0,1,2,2,0}, 'A');
 		KalahBoard b2 = new KalahBoard();
-		System.out.println(">>> " + KalahBoard.getBestMove(b,1));
-		b2.print();
+		System.out.println(KalahBoard.getBestMoveAB(b2,10));
 	}
 }

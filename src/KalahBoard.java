@@ -404,59 +404,94 @@ public class KalahBoard {
 	}
 
 	public static int evaluatediff(KalahBoard k){
-		if(k.getCurPlayer() == 'A'){
-			return k.getAKalah() - k.getBKalah();
-		} else{
-			return k.getBKalah() - k.getAKalah();
-		}
+		return k.getAKalah() - k.getBKalah();
 	}
 
 	public static int miniMax(KalahBoard b, int depth, boolean isMax){
-		int boardVal = evaluate(b);
-
 		if(b.isFinished() || depth == 0){
-			b.print();
-			System.out.println("==> " + boardVal);
-			return boardVal;
+			return evaluatediff(b);
+		}
+		if (isMax){
+			int maxEval = Integer.MIN_VALUE;
+			for(var e: b.possibleActions()){
+				int eval = miniMax(e,depth-1,false);
+				maxEval = Math.max(maxEval,eval);
+			}
+			return maxEval;
+		} else{
+			int minEval = Integer.MAX_VALUE;
+			for(var e: b.possibleActions()){
+				int eval = miniMax(e,depth-1,true);
+				minEval = Math.min(minEval,eval);
+			}
+			return minEval;
 		}
 
-		if(isMax){
-			int highVal = Integer.MIN_VALUE;
-			    for(var e: b.possibleActions()){
-			    	highVal = Math.max(highVal,miniMax(e,depth-1,false));
+	}
+
+	public static int miniMaxAB(KalahBoard b, int depth, boolean isMax,int alpha, int beta){
+		if(b.isFinished() || depth == 0){
+			return evaluatediff(b);
+		}
+		if (isMax){
+			int maxEval = Integer.MIN_VALUE;
+			for(var e: b.possibleActions()){
+				int eval = miniMaxAB(e,depth-1,false,alpha,beta);
+				maxEval = Math.max(maxEval,eval);
+				alpha = Math.max(alpha,eval);
+				if (beta <= alpha){
+					break;
 				}
-			    return highVal;
+			}
+			return maxEval;
+		} else{
+			int minEval = Integer.MAX_VALUE;
+			for(var e: b.possibleActions()){
+				int eval = miniMaxAB(e,depth-1,true,alpha,beta);
+				minEval = Math.min(minEval,eval);
+				beta = Math.min(beta,eval);
+				if(beta <= alpha){
+					break;
+				}
+			}
+			return minEval;
 		}
-		int lowVal = Integer.MAX_VALUE;
-		for(var e: b.possibleActions()){
-			lowVal = Math.min(lowVal,miniMax(e,depth-1,true));
-		}
-		return lowVal;
+
 	}
 
 
-	public static int getBestMove(KalahBoard b,int maxDepth){
-		int bestMove = Integer.MIN_VALUE;
-		int bestVal = Integer.MIN_VALUE;
 
+	public static int getBestMove(KalahBoard bo,int limit){
+		int bestVal = Integer.MIN_VALUE;
+		int pos = -1;
 		int counter = 0;
+		KalahBoard b = new KalahBoard(bo);
 		for(var e: b.possibleActions()){
-			int move = miniMax(e,maxDepth,false);
-			System.out.println("Auswertung bisherig= " + move + ", bestMove= " + bestVal);
-			if (move > bestVal){
-				bestMove = counter;
-				bestVal = move;
+			int eval = miniMax(b,limit,true);
+			if (eval > bestVal){
+				bestVal = eval;
+				pos = counter;
 			}
 			counter++;
 		}
-		return bestMove;
+		return pos;
 	}
 
-
-
-
-	public static boolean aBMiniMax(){
-		return true;
+	public static int getBestMoveAB(KalahBoard bo,int limit){
+		int bestVal = Integer.MIN_VALUE;
+		int pos = -1;
+		int counter = 0;
+		KalahBoard b = new KalahBoard(bo);
+		for(var e: b.possibleActions()){
+			int eval = miniMaxAB(b,limit,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
+			if (eval > bestVal){
+				bestVal = eval;
+				pos = counter;
+			}
+			counter++;
+		}
+		return pos;
 	}
+
 }
-	
+

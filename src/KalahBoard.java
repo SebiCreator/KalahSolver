@@ -394,15 +394,39 @@ public class KalahBoard {
 	}
 
 
+	//+++++++++++++++++++++++++++++++++++++ SOLVING FUNCTIONS +++++++++++++++++++++++++++++++++++//
 
+
+	/**
+	 * Zählt die Schritte des MiniMax-Algorithmus mit Alpha-Beta-Pruning
+	 */
 	public static int ABCOUNTER = 0;
+	/**
+	 * Zählt die Schritte des einfachen MiniMax-Algorithmus
+	 */
 	public static int COUNTER = 0;
+	/**
+	 * Zählt die Schritte des Heuristik-Optimierten MiniMax-Algorithmus mit Alpha-Beta-Pruning
+	 */
 	public static int OPTCOUNTER = 0;
 
+
+	/**
+	 * Evaluierungfunktion die die Steine von Kalah A von den Steinen von Kalah B subtrahiert
+	 * Spieler A will die Evaluierungsfunktion maximieren
+	 * Spieler B will die Evaluierungsfunktion minimieren
+	 */
 	public static int evaluatediff(KalahBoard k){
 		return k.getAKalah() - k.getBKalah();
 	}
 
+	/**
+	 * Einfacher Minimax Algorithmus
+	 * @param b Beschreibt das aktuelle zu analyiserende Board
+	 * @param depth Gibt die Suchtiefe an
+	 * @param isMax Gibt an ob Spieler A (true) oder Spieler B (false) gespielt wird
+	 * @return Gibt die Bewertung der aktuellen Spielsituation an
+	 */
 	public static int miniMax(KalahBoard b, int depth, boolean isMax){
 		if(b.isFinished() || depth == 0){
 			return evaluatediff(b);
@@ -427,6 +451,15 @@ public class KalahBoard {
 
 	}
 
+	/**
+	 * Minimax Algorithmus mit Alpha-Beta-Pruning
+	 * @param b Beschreibt das aktuelle zu analysierende Board
+	 * @param depth Gibt die Suchtiefe an
+	 * @param isMax Gibt an ob Spieler A (true) oder Spieler B (false) gespielt wird
+	 * @param alpha zur Berechnung des Alpha-Beta-Cutoffs
+	 * @param beta zur Berechnung des Alpha-Beta-Cutoffs
+	 * @return Gibt die Bewertung der aktuellen Spielsituation an
+	 */
 	public static int miniMaxAB(KalahBoard b, int depth, boolean isMax,int alpha, int beta){
 		if(b.isFinished() || depth == 0){
 			return evaluatediff(b);
@@ -458,6 +491,8 @@ public class KalahBoard {
 		}
 	}
 
+
+	// TODO:
 	public static int optMiniMax(KalahBoard b, int depth, boolean isMax,int alpha, int beta){
 		if(b.isFinished() || depth == 0){
 			return evaluatediff(b);
@@ -490,7 +525,12 @@ public class KalahBoard {
 	}
 
 
-
+	/**
+	 * Berechnet den bestmäglichen Zug (für Spieler A) mithilfe des Minimax-Algorithmus
+	 * @param bo aktuelles Board
+	 * @param limit Gibt die Suchtiefe an
+	 * @return Numerierung der Mulde die von A gespielt wird
+	 */
 	public static int getBestMove(KalahBoard bo,int limit){
 		int bestVal = Integer.MIN_VALUE;
 		int pos = -1;
@@ -507,6 +547,12 @@ public class KalahBoard {
 		return pos;
 	}
 
+	/**
+	 * Berechnet den bestmäglichen Zug (für Spieler A) mithilfe des MiniMax-Algorithmus mit Alpha-Beta-Pruning
+	 * @param bo aktuelles Board
+	 * @param limit Gibt die Suchtiefe an
+	 * @return Numerierung der Mulde die von A gespielt wird
+	 */
 	public static int getBestMoveAB(KalahBoard bo,int limit){
 		int bestVal = Integer.MIN_VALUE;
 		int pos = -1;
@@ -521,6 +567,23 @@ public class KalahBoard {
 			counter++;
 		}
 		return pos;
+	}
+
+	//TODO:
+	public static int getoptMove(KalahBoard bo,int limit){
+		int bestVal = Integer.MIN_VALUE;
+		int pos = -1;
+		int counter = 0;
+		KalahBoard b = new KalahBoard(bo);
+		for(var e: b.possibleActions()){
+			int eval = optMiniMax(e,limit,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
+			if (eval > bestVal){
+				bestVal = eval;
+				pos = counter;
+			}
+			counter++;
+		}
+		throw new UnsupportedOperationException("Not supported yet");
 	}
 
 }

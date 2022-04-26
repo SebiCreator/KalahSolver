@@ -16,8 +16,8 @@ public class Kalah {
 		//testExample();
 		//testHHGame();
 		//test1();
-		//play();
-		testPerformance(10);
+		play();
+		//testPerformance(10);
 	}
 	
 	/**

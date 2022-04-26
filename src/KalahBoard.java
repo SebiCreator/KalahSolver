@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Klasse KalahBoard 
@@ -492,6 +489,7 @@ public class KalahBoard {
 	}
 
 
+
 	// TODO:
 	public static int optMiniMax(KalahBoard b, int depth, boolean isMax,int alpha, int beta){
 		if(b.isFinished() || depth == 0){
@@ -559,6 +557,10 @@ public class KalahBoard {
 		int counter = 0;
 		KalahBoard b = new KalahBoard(bo);
 		for(var e: b.possibleActions()){
+			if (!b.possibleAction(counter)){
+				counter++;
+				continue;
+			}
 			int eval = miniMaxAB(e,limit,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
 			if (eval > bestVal){
 				bestVal = eval;
@@ -576,6 +578,10 @@ public class KalahBoard {
 		int counter = 0;
 		KalahBoard b = new KalahBoard(bo);
 		for(var e: b.possibleActions()){
+			if(!b.possibleAction(counter)){
+				counter++;
+				continue;
+			}
 			int eval = optMiniMax(e,limit,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
 			if (eval > bestVal){
 				bestVal = eval;

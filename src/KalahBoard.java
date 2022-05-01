@@ -417,6 +417,14 @@ public class KalahBoard {
 		return k.getAKalah() - k.getBKalah();
 	}
 
+
+	public static List<KalahBoard> sortBoards(KalahBoard b){
+		var possible = b.possibleActions();
+		possible.sort((KalahBoard b1, KalahBoard b2) -> evaluatediff(b2) - evaluatediff(b1));
+		return possible;
+	}
+
+
 	/**
 	 * Einfacher Minimax Algorithmus
 	 * @param b Beschreibt das aktuelle zu analyiserende Board
@@ -497,8 +505,8 @@ public class KalahBoard {
 		}
 		if (isMax){
 			int maxEval = Integer.MIN_VALUE;
-			for(var e: b.possibleActions()){
-				int eval = miniMaxAB(e,depth-1,false,alpha,beta);
+			for(var e: sortBoards(b)){
+				int eval = optMiniMax(e,depth-1,false,alpha,beta);
 				OPTCOUNTER += 1;
 				maxEval = Math.max(maxEval,eval);
 				alpha = Math.max(alpha,eval);
@@ -509,8 +517,8 @@ public class KalahBoard {
 			return maxEval;
 		} else{
 			int minEval = Integer.MAX_VALUE;
-			for(var e: b.possibleActions()){
-				int eval = miniMaxAB(e,depth-1,true,alpha,beta);
+			for(var e: sortBoards(b)){
+				int eval = optMiniMax(e,depth-1,true,alpha,beta);
 				OPTCOUNTER += 1;
 				minEval = Math.min(minEval,eval);
 				beta = Math.min(beta,eval);
@@ -531,10 +539,14 @@ public class KalahBoard {
 	 */
 	public static int getBestMove(KalahBoard bo,int limit){
 		int bestVal = Integer.MIN_VALUE;
-		int pos = -1;
+		int pos = 0;
 		int counter = 0;
 		KalahBoard b = new KalahBoard(bo);
 		for(var e: b.possibleActions()){
+			if(!b.possibleAction(counter)){
+				counter++;
+				continue;
+			}
 			int eval = miniMax(e,limit,true);
 			if (eval > bestVal){
 				bestVal = eval;
@@ -553,7 +565,7 @@ public class KalahBoard {
 	 */
 	public static int getBestMoveAB(KalahBoard bo,int limit){
 		int bestVal = Integer.MIN_VALUE;
-		int pos = -1;
+		int pos = 0;
 		int counter = 0;
 		KalahBoard b = new KalahBoard(bo);
 		for(var e: b.possibleActions()){
@@ -571,10 +583,10 @@ public class KalahBoard {
 		return pos;
 	}
 
-	//TODO:
+	// Returnt den besten Move mit vorsortierten Zügen
 	public static int getoptMove(KalahBoard bo,int limit){
 		int bestVal = Integer.MIN_VALUE;
-		int pos = -1;
+		int pos = 0;
 		int counter = 0;
 		KalahBoard b = new KalahBoard(bo);
 		for(var e: b.possibleActions()){
@@ -589,7 +601,7 @@ public class KalahBoard {
 			}
 			counter++;
 		}
-		throw new UnsupportedOperationException("Not supported yet");
+		return pos;
 	}
 
 }

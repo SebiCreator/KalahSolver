@@ -408,6 +408,40 @@ public class KalahBoard {
 	public static int OPTCOUNTER = 0;
 
 
+	public static int h1(KalahBoard bo) {
+		KalahBoard b = new KalahBoard(bo);
+
+		if(b.curPlayer == APlayer) {
+			if (b.board[AStart + NMulden - 1] == 1){
+				return 1;
+			}
+		} else {
+			if (b.board[BStart + NMulden - 1] == 1){
+				return 1;
+			}
+		}
+		return -1;
+	}
+
+	public static int getASeeds(KalahBoard b) {
+		int seed_Counter = 0;
+		for (int i = AStart; i < AStart + NMulden; i++) {
+
+			seed_Counter +=b.board[i];
+		}
+		return seed_Counter;
+	}
+
+	public static int getBSeeds(KalahBoard b) {
+		int seed_Counter = 0;
+		for (int i = BStart; i < BStart + NMulden; i++) {
+
+			seed_Counter +=b.board[i];
+		}
+		return seed_Counter;
+	}
+
+
 	/**
 	 * Evaluierungfunktion die die Steine von Kalah A von den Steinen von Kalah B subtrahiert
 	 * Spieler A will die Evaluierungsfunktion maximieren
@@ -418,9 +452,15 @@ public class KalahBoard {
 	}
 
 
-	public static List<KalahBoard> sortBoards(KalahBoard b){
+	/*public static List<KalahBoard> sortBoards(KalahBoard b){
 		var possible = b.possibleActions();
 		possible.sort((KalahBoard b1, KalahBoard b2) -> evaluatediff(b2) - evaluatediff(b1));
+		return possible;
+	}*/
+
+	public static List<KalahBoard> sortBoards(KalahBoard b){
+		var possible = b.possibleActions();
+		possible.sort((KalahBoard b1, KalahBoard b2) -> getASeeds(b1) - getBSeeds(b2));
 		return possible;
 	}
 

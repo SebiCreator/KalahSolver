@@ -1,7 +1,5 @@
 /**
- * Hauptprogramm für KalahMuster.
- * @since 29.3.2021
- * @author oliverbittel
+ * @author Sebastian Kaeser
  */
 public class Kalah {
 	
@@ -17,7 +15,7 @@ public class Kalah {
 		//testHHGame();
 		//test1();
 		//play();
-		testPerformance(6);
+		testPerformance(12);
 	}
 	
 	/**
@@ -74,20 +72,20 @@ public class Kalah {
 		KalahBoard b2 = new KalahBoard(new int[]{13,3,2,1,2,0,5,4,3,0,1,2,2,0}, 'A');
 
 		long startTime = System.nanoTime();
-		//KalahBoard.miniMax(b2,LIMIT,true);
+		KalahBoard.miniMax(b,LIMIT,true);
 		long stopTime = System.nanoTime();
 		double expTime = (double) (stopTime - startTime) / 1.0e09;
 		System.out.printf("Min/Max Aufrufe MiniMax bei einem Limit von %d ==> %d (%.5f s)\n",LIMIT,KalahBoard.COUNTER,expTime);
 
 
 		startTime = System.nanoTime();
-		KalahBoard.miniMaxAB(b2,LIMIT,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
+		KalahBoard.miniMaxAB(b,LIMIT,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
 		stopTime = System.nanoTime();
 		expTime = (double) (stopTime - startTime) / 1.0e09;
 		System.out.printf("Min/Max Aufrufe AlphaBeta bei einem Limit von %d ==> %d (%.5f s)\n",LIMIT,KalahBoard.ABCOUNTER,expTime);
 
 		startTime = System.nanoTime();
-		KalahBoard.optMiniMax(b2,LIMIT,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
+		KalahBoard.optMiniMax(b,LIMIT,true,Integer.MIN_VALUE,Integer.MAX_VALUE);
 		stopTime = System.nanoTime();
 		expTime = (double) (stopTime-startTime) / 1.0e09;
 		System.out.printf("Min/Max Aufrufe AlphaBetaOptimiert bei einem Limit von %d ==> %d (%.5f s)\n",LIMIT,KalahBoard.OPTCOUNTER,expTime);

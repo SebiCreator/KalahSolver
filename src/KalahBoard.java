@@ -1,9 +1,7 @@
 import java.util.*;
 
 /**
- * Klasse KalahBoard 
- * @author Ihr Name Oliver Bittel
- * @since 15.03.2021 
+ * @author Sebastian Kaeser
  */
 public class KalahBoard {
 
@@ -452,11 +450,6 @@ public class KalahBoard {
 	}
 
 
-	/*public static List<KalahBoard> sortBoards(KalahBoard b){
-		var possible = b.possibleActions();
-		possible.sort((KalahBoard b1, KalahBoard b2) -> evaluatediff(b2) - evaluatediff(b1));
-		return possible;
-	}*/
 
 	public static List<KalahBoard> sortBoards(KalahBoard b){
 		var possible = b.possibleActions();
@@ -538,7 +531,6 @@ public class KalahBoard {
 
 
 
-	// TODO:
 	public static int optMiniMax(KalahBoard b, int depth, boolean isMax,int alpha, int beta){
 		if(b.isFinished() || depth == 0){
 			return evaluatediff(b);
